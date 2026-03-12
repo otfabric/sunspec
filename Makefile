@@ -21,7 +21,7 @@ sync: ## Sync SunSpec JSON models from upstream and regenerate
 	@./sync-models.sh
 	@$(MAKE) generate
 
-check: fmt vet lint test ## Run all checks (format, vet, lint, test)
+check: fmt vet lint lint-ci test ## Run all checks (format, vet, lint, test)
 
 test: ## Run unit and integration tests with race detector
 	@echo "Running tests (race detector)"
@@ -43,11 +43,7 @@ vet: ## Run go vet on all packages
 	@echo "Running go vet"
 	@go vet ./...
 
-lint: ## Run staticcheck
-	@echo "Running staticcheck"
-	@staticcheck ./...
-
-lint-ci: ## Run golangci-lint (uses .golangci.yml)
+lint: ## Run golangci-lint
 	@echo "Running golangci-lint"
 	@golangci-lint run ./...
 

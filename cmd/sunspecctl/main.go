@@ -89,7 +89,7 @@ func newClient() (*modbus.ModbusClient, func(), error) {
 	if err := client.Open(); err != nil {
 		return nil, nil, fmt.Errorf("connect: %w", err)
 	}
-	return client, func() { client.Close() }, nil
+	return client, func() { _ = client.Close() }, nil
 }
 
 func discoverOpts() *sunspec.DiscoverOptions {
@@ -158,16 +158,16 @@ func modelsCmd() *cobra.Command {
 			}
 
 			w := tabwriter.NewWriter(os.Stdout, 0, 4, 2, ' ', 0)
-			fmt.Fprintln(w, "ID\tNAME\tSTART\tLENGTH\tSCHEMA")
+			_, _ = fmt.Fprintln(w, "ID\tNAME\tSTART\tLENGTH\tSCHEMA")
 			for _, m := range device.Discovery.Models {
 				schema := "yes"
 				if !m.SchemaKnown {
 					schema = "no"
 				}
-				fmt.Fprintf(w, "%d\t%s\t%d\t%d\t%s\n",
+				_, _ = fmt.Fprintf(w, "%d\t%s\t%d\t%d\t%s\n",
 					m.Header.ID, m.Name, m.Header.StartAddress, m.Header.Length, schema)
 			}
-			w.Flush()
+			_ = w.Flush()
 			return nil
 		},
 	}
@@ -249,7 +249,7 @@ func readModelCmd() *cobra.Command {
 	}
 
 	cmd.Flags().Uint16Var(&modelID, "id", 0, "Model ID to read (required)")
-	cmd.MarkFlagRequired("id")
+	_ = cmd.MarkFlagRequired("id")
 	return cmd
 }
 
@@ -315,8 +315,8 @@ func readPointCmd() *cobra.Command {
 
 	cmd.Flags().Uint16Var(&modelID, "model", 0, "Model ID (required)")
 	cmd.Flags().StringVar(&pointName, "point", "", "Point name (required)")
-	cmd.MarkFlagRequired("model")
-	cmd.MarkFlagRequired("point")
+	_ = cmd.MarkFlagRequired("model")
+	_ = cmd.MarkFlagRequired("point")
 	return cmd
 }
 
@@ -374,7 +374,7 @@ func printBlock(label string, block *sunspec.DecodedBlock) {
 		if len(p.Symbols) > 0 {
 			extra += " [" + strings.Join(p.Symbols, ", ") + "]"
 		}
-		fmt.Fprintf(w, "    %s\t%s\t%s%s\n", p.Name, p.Type, val, extra)
+		_, _ = fmt.Fprintf(w, "    %s\t%s\t%s%s\n", p.Name, p.Type, val, extra)
 	}
-	w.Flush()
+	_ = w.Flush()
 }

@@ -7,6 +7,8 @@
 # models/ directory. Useful for keeping a local copy of the SunSpec
 # data models in sync with the upstream source of truth.
 #
+# https://github.com/sunspec/models/tree/master/json
+#
 # Usage: ./sync-models.sh
 #
 
