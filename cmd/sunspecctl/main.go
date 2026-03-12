@@ -38,7 +38,7 @@ func main() {
 	root.PersistentFlags().BoolVar(&flagJSON, "json", false, "Output as JSON")
 	root.PersistentFlags().BoolVar(&flagRaw, "raw", false, "Include raw register hex in output")
 
-	root.AddCommand(detectCmd(), modelsCmd(), readCmd(), readModelCmd(), readPointCmd(), completionCmd(root), versionCmd())
+	root.AddCommand(detectCmd(), modelsCmd(), readCmd(), readModelCmd(), readPointCmd(), pollCmd(), pollModelCmd(), pollPointCmd(), completionCmd(root), versionCmd())
 
 	if err := root.Execute(); err != nil {
 		os.Exit(1)

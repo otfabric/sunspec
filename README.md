@@ -118,6 +118,20 @@ all := registry.All() // sorted []ModelMeta
 
 A command-line tool for inspecting SunSpec devices over Modbus.
 
+```
+sunspecctl
+├── detect       Detect SunSpec device presence
+├── models       List discovered SunSpec models
+├── read         Read and decode all models
+├── read-model   Read and decode a specific model by ID
+├── read-point   Read a single named point from a model
+├── poll         Repeatedly read and decode all models
+├── poll-model   Repeatedly read and decode a specific model by ID
+├── poll-point   Repeatedly read a single named point from a model
+├── completion   Generate shell completion script (bash/zsh/fish/powershell)
+└── version      Print the sunspecctl version
+```
+
 ### Building
 
 ```bash
@@ -164,6 +178,26 @@ sunspecctl read-model --id 101 --url tcp://192.168.1.100:502
 
 # Read a single point from a model
 sunspecctl read-point --model 101 --point W --url tcp://192.168.1.100:502
+```
+
+### Polling
+
+The `poll`, `poll-model`, and `poll-point` commands work like their `read` counterparts but repeat at a configurable interval.
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--interval` | `30s` | Interval between polls (supports `s`, `m`, `h`) |
+| `--count` | `0` | Number of polls (`0` = infinite, stop with Ctrl-C) |
+
+```bash
+# Poll all models every 10 seconds
+sunspecctl poll --interval 10s --url tcp://192.168.1.100:502
+
+# Poll model 101 five times, once per minute
+sunspecctl poll-model --id 101 --interval 1m --count 5 --url tcp://192.168.1.100:502
+
+# Poll a single point every 5 seconds as JSON (great for piping)
+sunspecctl poll-point --model 101 --point W --interval 5s --json --url tcp://192.168.1.100:502
 ```
 
 ### Output Formats
@@ -213,4 +247,4 @@ make generate
 ## Requirements
 
 - Go 1.21+
-- [otfabric/modbus](https://github.com/otfabric/modbus) v0.2.0+
+- [otfabric/modbus](https://github.com/otfabric/modbus) v0.2.1+

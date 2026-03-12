@@ -1,3 +1,40 @@
+# Release v0.1.2
+
+**Date:** 2026-03-12
+
+## Summary
+
+Adds polling commands, version command, build-time version injection, linter fixes, and switches to the published modbus dependency.
+
+## New Commands
+
+- **`poll`** — repeatedly read and decode all models at a configurable interval
+- **`poll-model`** — repeatedly read a specific model by ID
+- **`poll-point`** — repeatedly read a single named point
+- **`version`** — print the build version
+
+All poll commands support `--interval` (default `30s`, accepts `s`/`m`/`h`) and `--count` (default `0` = infinite, Ctrl-C to stop).
+
+## Changes
+
+- **Published dependency** — replaced local `replace` directive with `github.com/otfabric/modbus v0.2.1`
+- **Version injection** — `sunspecctl version` prints the version set via `-ldflags` at build time (defaults to `git describe`)
+- **Linter fixes** — resolved all 13 `errcheck` findings in CLI and test utilities; `make lint` now runs `golangci-lint` (matching CI)
+- **CI cleanup** — removed unnecessary modbus checkout step from CI and release workflows
+
+## Testing
+
+- 6 new tests for poll loop logic (single, multiple, error stop, context cancellation, infinite loop, per-iteration timeout)
+- All existing tests continue to pass (21 decode + 7 integration + 5 registry)
+
+## Dependencies
+
+- Go 1.21+
+- [otfabric/modbus](https://github.com/otfabric/modbus) v0.2.1
+- [spf13/cobra](https://github.com/spf13/cobra) v1.10.2 (CLI only)
+
+---
+
 # Release v0.1.0
 
 **Date:** 2026-03-12
