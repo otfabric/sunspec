@@ -1,3 +1,34 @@
+# Release v0.1.3
+
+**Date:** 2026-03-12
+
+## Summary
+
+Export SunSpec protocol constants so downstream consumers (e.g. strategies parsing raw `ScanResult.Data`) can reference the canonical marker, end-model sentinel, and default base address values directly instead of maintaining mirrored copies.
+
+## Changes
+
+### Changed
+
+- **Dependency upgrade** — `github.com/otfabric/modbus` v0.2.1 → v0.2.2
+- **SunSpec constants** — The following values are now re-exported from the modbus library:
+  - `SunSpecMarkerReg0` (`0x5375`) / `SunSpecMarkerReg1` (`0x6E53`) — "SunS" marker registers
+  - `SunSpecEndModelID` (`0xFFFF`) / `SunSpecEndModelLength` (`0`) — end-of-chain sentinel
+  - `SunSpecDefaultBaseAddresses` (`[]uint16{0, 40000, 50000, 1, 39999, 40001, 49999, 50001}`) — default probe addresses
+- **Test utilities** — `testutil.NewSunSpecFixture` now uses the modbus constants instead of hardcoded magic numbers
+
+### Unchanged
+
+- All SunSpec discovery methods, types, and behaviour unchanged. This is a purely additive API change.
+
+## Dependencies
+
+- Go 1.21+
+- [otfabric/modbus](https://github.com/otfabric/modbus) v0.2.2
+- [spf13/cobra](https://github.com/spf13/cobra) v1.10.2 (CLI only)
+
+---
+
 # Release v0.1.2
 
 **Date:** 2026-03-12

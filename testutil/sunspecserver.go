@@ -61,9 +61,9 @@ func NewSunSpecFixture(baseAddr uint16, unitID uint8, models ...FixtureModel) *S
 
 	addr := baseAddr
 
-	// Write SunS marker (0x5375, 0x6E53)
-	h.Registers[addr] = 0x5375
-	h.Registers[addr+1] = 0x6E53
+	// Write SunS marker
+	h.Registers[addr] = modbus.SunSpecMarkerReg0
+	h.Registers[addr+1] = modbus.SunSpecMarkerReg1
 	addr += 2
 
 	for _, m := range models {
@@ -79,9 +79,9 @@ func NewSunSpecFixture(baseAddr uint16, unitID uint8, models ...FixtureModel) *S
 		addr += m.Length
 	}
 
-	// End model marker: 0xFFFF, 0x0000
-	h.Registers[addr] = 0xFFFF
-	h.Registers[addr+1] = 0x0000
+	// End model marker
+	h.Registers[addr] = modbus.SunSpecEndModelID
+	h.Registers[addr+1] = modbus.SunSpecEndModelLength
 
 	return h
 }

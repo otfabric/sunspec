@@ -26,3 +26,21 @@ var (
 	ErrModelChainInvalid       = modbus.ErrSunSpecModelChainInvalid
 	ErrModelChainLimitExceeded = modbus.ErrSunSpecModelChainLimitExceeded
 )
+
+// SunSpec protocol constants re-exported from github.com/otfabric/modbus.
+var (
+	// SunSpecMarkerReg0 is the first register of the "SunS" marker (0x5375).
+	SunSpecMarkerReg0 = modbus.SunSpecMarkerReg0
+
+	// SunSpecMarkerReg1 is the second register of the "SunS" marker (0x6E53).
+	SunSpecMarkerReg1 = modbus.SunSpecMarkerReg1
+
+	// SunSpecEndModelID is the end-of-model-chain sentinel ID (0xFFFF).
+	SunSpecEndModelID = modbus.SunSpecEndModelID
+
+	// SunSpecEndModelLength is the end-of-model-chain sentinel length (0).
+	SunSpecEndModelLength = modbus.SunSpecEndModelLength
+
+	// SunSpecDefaultBaseAddresses are the default base addresses probed during detection.
+	SunSpecDefaultBaseAddresses = modbus.SunSpecDefaultBaseAddresses
+)
