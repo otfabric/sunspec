@@ -1,0 +1,19 @@
+# Build output
+/release/*
+/docker.tar
+/sunspectl
+
+# Scan results
+*.log
+
+# Editor settings
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Coverage reports
+coverage.*
+
+# Examples
+/examples/*
