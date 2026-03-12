@@ -9,6 +9,8 @@ APP_NAME    = sunspecctl
 APP_SRC     = ./cmd/sunspecctl
 ARCHS       = linux/amd64 linux/arm64 linux/arm/v7 darwin/amd64 darwin/arm64
 RELEASE_DIR = release
+VERSION    ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
+LDFLAGS     = -ldflags "-X main.version=$(VERSION)"
 
 all: check build ## Run all checks and build library + CLI
 
@@ -21,7 +23,7 @@ sync: ## Sync SunSpec JSON models from upstream and regenerate
 	@./sync-models.sh
 	@$(MAKE) generate
 
-check: fmt vet lint test ## Run all checks (format, vet, lint, test)
+check: fmt vet lint lint-ci test ## Run all checks (format, vet, lint, test)
 
 test: ## Run unit and integration tests with race detector
 	@echo "Running tests (race detector)"
@@ -54,12 +56,12 @@ lint-ci: ## Run golangci-lint (uses .golangci.yml)
 build: generate ## Build the library and CLI
 	@echo "Building library"
 	@go build ./...
-	@echo "Building $(APP_NAME)"
-	@go build -o $(APP_NAME) $(APP_SRC)
+	@echo "Building $(APP_NAME) $(VERSION)"
+	@go build $(LDFLAGS) -o $(APP_NAME) $(APP_SRC)
 
 build-cli: ## Build CLI only (skip generate)
-	@echo "Building $(APP_NAME)"
-	@go build -o $(APP_NAME) $(APP_SRC)
+	@echo "Building $(APP_NAME) $(VERSION)"
+	@go build $(LDFLAGS) -o $(APP_NAME) $(APP_SRC)
 
 build-all: generate ## Build CLI for all architectures
 	@mkdir -p $(RELEASE_DIR)
@@ -70,10 +72,10 @@ build-all: generate ## Build CLI for all architectures
 		variant=$${rest#*/}; \
 		if [ "$$cpu" = "arm" ] && [ "$$variant" = "v7" ]; then \
 			echo "Building $(APP_NAME)-$$os-armv7..."; \
-			GOOS=$$os GOARCH=$$cpu GOARM=7 go build -o $(RELEASE_DIR)/$(APP_NAME)-$$os-armv7 $(APP_SRC); \
+			GOOS=$$os GOARCH=$$cpu GOARM=7 go build $(LDFLAGS) -o $(RELEASE_DIR)/$(APP_NAME)-$$os-armv7 $(APP_SRC); \
 		else \
 			echo "Building $(APP_NAME)-$$os-$$cpu..."; \
-			GOOS=$$os GOARCH=$$cpu go build -o $(RELEASE_DIR)/$(APP_NAME)-$$os-$$cpu $(APP_SRC); \
+			GOOS=$$os GOARCH=$$cpu go build $(LDFLAGS) -o $(RELEASE_DIR)/$(APP_NAME)-$$os-$$cpu $(APP_SRC); \
 		fi \
 	done
 

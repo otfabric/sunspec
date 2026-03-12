@@ -1,7 +1,7 @@
 # Build output
 /release/*
 /docker.tar
-/sunspectl
+/sunspecctl
 
 # Scan results
 *.log

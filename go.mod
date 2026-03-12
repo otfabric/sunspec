@@ -2,10 +2,8 @@ module github.com/otfabric/sunspec
 
 go 1.21
 
-replace github.com/otfabric/modbus => ../modbus
-
 require (
-	github.com/otfabric/modbus v0.0.0-00010101000000-000000000000
+	github.com/otfabric/modbus v0.2.1
 	github.com/spf13/cobra v1.10.2
 )
 

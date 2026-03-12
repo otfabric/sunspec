@@ -105,17 +105,17 @@ func StartServerClient(t *testing.T, handler *SunSpecHandler, port int) (*modbus
 
 	client, err := modbus.NewClient(&modbus.ClientConfiguration{URL: url})
 	if err != nil {
-		server.Stop()
+		_ = server.Stop()
 		t.Fatalf("failed to create client: %v", err)
 	}
 	if err := client.Open(); err != nil {
-		server.Stop()
+		_ = server.Stop()
 		t.Fatalf("failed to open client: %v", err)
 	}
 
 	cleanup := func() {
-		client.Close()
-		server.Stop()
+		_ = client.Close()
+		_ = server.Stop()
 	}
 	return client, cleanup
 }

@@ -43,12 +43,6 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Checkout modbus (sibling dependency)
-        uses: actions/checkout@v6
-        with:
-          repository: otfabric/modbus
-          path: ../modbus
-
       - name: Verify default branch
         run: |
           set -euo pipefail
@@ -99,6 +93,8 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
+          echo "Releasing $tag (was $previous_tag)"
+
       - name: Fail if tag already exists
         run: |
           set -euo pipefail
@@ -131,7 +127,7 @@ jobs:
           echo "used_release_md=$used_release_md" >> "$GITHUB_OUTPUT"
 
       - name: Build cross-platform binaries
-        run: make release-all
+        run: make release-all VERSION=${{ steps.version.outputs.tag }}
 
       - name: Create and push annotated tag
         run: |

@@ -1,4 +1,10 @@
-# sunspec
+# sunspec — Sunspec Modbus Protocol Library
+
+[![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go)](https://go.dev/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
+[![Go Report Card](https://goreportcard.com/badge/github.com/otfabric/sunspec)](https://goreportcard.com/report/github.com/otfabric/sunspec)
+[![CI](https://github.com/otfabric/sunspec/actions/workflows/ci.yml/badge.svg)](https://github.com/otfabric/sunspec/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/badge/release-v0.1.0-blue.svg)](https://github.com/otfabric/sunspec/releases)
 
 Go library for reading [SunSpec](https://sunspec.org/) devices over Modbus. Built on top of [otfabric/modbus](https://github.com/otfabric/modbus).
 
